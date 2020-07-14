@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Clean Architecture</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">PDF Reader</string>
+
+    <string name="menu_library">Library</string>
+    <string name="menu_pdf_reader">Pdf Reader</string>
+    <string name="txt_page">Page %d/%d</string>
+    <string name="txt_before">Previous</string>
+    <string name="txt_next">Next</string>
+</resources>
