@@ -9,4 +9,7 @@
     <string name="txt_page">Page %d/%d</string>
     <string name="txt_before">Previous</string>
     <string name="txt_next">Next</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_dialog_title">Do you really want to delete this item?</string>
 </resources>

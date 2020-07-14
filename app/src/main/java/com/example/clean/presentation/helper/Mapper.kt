@@ -34,5 +34,4 @@ class Mapper {
             url = document.uri
         )
     }
-
 }

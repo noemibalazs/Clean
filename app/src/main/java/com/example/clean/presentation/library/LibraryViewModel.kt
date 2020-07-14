@@ -64,4 +64,18 @@ class LibraryViewModel(private val interActors: InterActors) : PDFViewModel() {
         showDocumentList()
     }
 
+    fun onDeleteDocumentClicked(document: Document){
+        Logger.d(KOIN_TAG, "onDeleteDocumentClicked")
+        launch {
+            interActors.removeDocument.invoke(document)
+            withContext(Dispatchers.Main){
+                try {
+                    Log.d(KOIN_TAG, "Document was deleted from data base - $document")
+                } catch (e: Exception) {
+                    Logger.e(KOIN_TAG, "onDeleteDocumentClicked: see error message - ${e.message}")
+                }
+            }
+        }
+        showDocumentList()
+    }
 }

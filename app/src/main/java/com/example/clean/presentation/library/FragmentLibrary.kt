@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.example.clean.R
 import com.example.clean.databinding.FragmentLibraryBinding
@@ -49,7 +50,7 @@ class FragmentLibrary : Fragment() {
 
     private fun initBinding() {
         binding.viewModel = libraryViewModel
-        libraryAdapter = LibraryAdapter(libraryViewModel, this::onDocumentClicked, Glide.with(this))
+        libraryAdapter = LibraryAdapter(libraryViewModel, this::onDocumentClicked, Glide.with(this), this::onDeleteDocumentClicked)
         binding.rvLibrary.adapter = libraryAdapter
     }
 
@@ -58,6 +59,22 @@ class FragmentLibrary : Fragment() {
             R.id.navigateFromLibraryToReaderFragment,
             bundleOf(DOCUMENT to document)
         )
+    }
+
+    private fun onDeleteDocumentClicked(document: Document){
+        activity?.let {
+            MaterialDialog(it).show {
+                title(R.string.txt_dialog_title)
+                positiveButton(R.string.txt_ok)
+                negativeButton(R.string.txt_cancel)
+                positiveButton {
+                    libraryViewModel.onDeleteDocumentClicked(document)
+                }
+                negativeButton {
+                    dismiss()
+                }
+            }
+        }
     }
 
     private fun setObservers() {

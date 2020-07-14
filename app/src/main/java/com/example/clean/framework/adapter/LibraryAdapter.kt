@@ -13,7 +13,8 @@ import com.example.core.domain.Document
 class LibraryAdapter(
     private val libraryViewModel: LibraryViewModel,
     private val documentClickListener: (Document) -> Unit,
-    private val requestManager: RequestManager
+    private val requestManager: RequestManager,
+    private val deleteClickListener: (Document) -> Unit
 ) : ListAdapter<Document, LibraryVH>(LibraryDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryVH {
@@ -23,7 +24,7 @@ class LibraryAdapter(
             parent,
             false
         )
-        return LibraryVH(binding, libraryViewModel, documentClickListener)
+        return LibraryVH(binding, libraryViewModel, documentClickListener, deleteClickListener)
     }
 
     override fun onBindViewHolder(holder: LibraryVH, position: Int) {
