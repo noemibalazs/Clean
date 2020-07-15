@@ -83,5 +83,5 @@ val libraryViewModelModule = module {
 }
 
 val readerViewModelModule = module {
-    viewModel { ReaderViewModel(interActors = get()) }
+    viewModel { ReaderViewModel(interActors = get(), application = androidApplication()) }
 }
