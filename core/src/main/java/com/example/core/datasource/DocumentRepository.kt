@@ -3,8 +3,7 @@ package com.example.core.datasource
 import com.example.core.domain.Document
 
 class DocumentRepository(
-    private val documentDataSource: DocumentDataSource,
-    private val openDocumentDataSource: OpenDocumentDataSource
+    private val documentDataSource: DocumentDataSource
 ) {
 
     suspend fun addDocument(document: Document) {
@@ -19,11 +18,7 @@ class DocumentRepository(
         return documentDataSource.readAllDocuments()
     }
 
-    fun setOpenDocument(document: Document) {
-        openDocumentDataSource.setOpenDocument(document)
-    }
-
-    fun getOpenDocument(): Document {
-        return openDocumentDataSource.getOpenDocument()
+    suspend fun getDocument(url: String): Document {
+        return documentDataSource.getDocument(url)
     }
 }

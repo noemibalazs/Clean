@@ -9,4 +9,6 @@ interface DocumentDataSource {
     suspend fun removeDocument(document: Document)
 
     suspend fun readAllDocuments(): List<Document>
+
+    suspend fun getDocument(url:String):Document
 }

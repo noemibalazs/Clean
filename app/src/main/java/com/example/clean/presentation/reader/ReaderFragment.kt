@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.clean.R
 import com.example.clean.databinding.FragmentReaderBinding
 import com.example.clean.presentation.util.DOCUMENT
@@ -42,11 +43,10 @@ class ReaderFragment : Fragment() {
 
     private fun initBinding() {
         binding.viewModel = readerViewModel
-        val document = arguments?.getSerializable(DOCUMENT) as Document
-        readerViewModel.setMyDocument(document)
     }
 
     private fun setObservers() {
+        readerViewModel.getDocument()
         readerViewModel.document.observe(viewLifecycleOwner, Observer {
             Log.d(KOIN_TAG, "Document name is: ${it.name}")
         })

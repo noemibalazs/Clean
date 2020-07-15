@@ -9,7 +9,6 @@ class KoinInjector {
         fun getModules(): MutableList<Module> {
             fun getMapper() = listOf(mapperModule)
             fun getPDFModule() = listOf(pdfDataBaseModule)
-            fun getOpenDocumentModule() = listOf(openDocumentDataSourceModule)
             fun getDBDocumentDataSourceModule() = listOf(dbDocumentDataSourceModule)
             fun getDBBookmarkDataSourceModule() = listOf(dbBookmarkDataSourceModule)
             fun getDocumentRepositoryModule() = listOf(documentRepositoryModule)
@@ -18,11 +17,11 @@ class KoinInjector {
             fun getInterActorsModule() = listOf(interActorsModule)
             fun getLibraryViewModelModule() = listOf(libraryViewModelModule)
             fun getReaderViewModelModule() = listOf(readerViewModelModule)
+            fun getDataManagerModule() = listOf(dataManagerModule)
 
             return mutableListOf<Module>().apply {
                 addAll(getMapper())
                 addAll(getPDFModule())
-                addAll(getOpenDocumentModule())
                 addAll(getDBDocumentDataSourceModule())
                 addAll(getDBBookmarkDataSourceModule())
                 addAll(getDocumentRepositoryModule())
@@ -31,8 +30,8 @@ class KoinInjector {
                 addAll(getInterActorsModule())
                 addAll(getLibraryViewModelModule())
                 addAll(getReaderViewModelModule())
+                addAll(getDataManagerModule())
             }
-
         }
     }
 }

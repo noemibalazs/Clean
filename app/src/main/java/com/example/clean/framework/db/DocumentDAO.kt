@@ -18,4 +18,7 @@ interface DocumentDAO {
 
     @Query("SELECT COUNT(url) FROM DOCUMENT_TABLE")
     fun numberOfRows(): LiveData<Int>
+
+    @Query("SELECT * FROM DOCUMENT_TABLE WHERE url =:url")
+    suspend fun getDocument(url: String): DocumentEntity
 }

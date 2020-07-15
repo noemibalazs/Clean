@@ -17,6 +17,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.example.clean.R
 import com.example.clean.databinding.FragmentLibraryBinding
+import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.adapter.LibraryAdapter
 import com.example.clean.presentation.util.DOCUMENT
 import com.example.clean.presentation.util.REQUEST_CODE
@@ -30,6 +31,7 @@ import java.io.File
 class FragmentLibrary : Fragment() {
 
     private val libraryViewModel: LibraryViewModel by inject()
+    private val dataManager: DataManager by inject()
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var libraryAdapter: LibraryAdapter
 
@@ -50,18 +52,23 @@ class FragmentLibrary : Fragment() {
 
     private fun initBinding() {
         binding.viewModel = libraryViewModel
-        libraryAdapter = LibraryAdapter(libraryViewModel, this::onDocumentClicked, Glide.with(this), this::onDeleteDocumentClicked)
+        libraryAdapter = LibraryAdapter(
+            libraryViewModel,
+            this::onDocumentClicked,
+            Glide.with(this),
+            this::onDeleteDocumentClicked
+        )
         binding.rvLibrary.adapter = libraryAdapter
     }
 
     private fun onDocumentClicked(document: Document) {
         findNavController().navigate(
-            R.id.navigateFromLibraryToReaderFragment,
-            bundleOf(DOCUMENT to document)
+            R.id.navigateFromLibraryToReaderFragment
         )
+        dataManager.saveDocumentUrl(document.uri)
     }
 
-    private fun onDeleteDocumentClicked(document: Document){
+    private fun onDeleteDocumentClicked(document: Document) {
         activity?.let {
             MaterialDialog(it).show {
                 title(R.string.txt_dialog_title)

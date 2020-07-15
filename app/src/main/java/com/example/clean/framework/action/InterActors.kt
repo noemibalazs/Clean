@@ -9,10 +9,9 @@ data class InterActors(
     val removeBookmark: RemoveBookmark,
     val readAllDocuments: ReadAllDocuments,
     val readAllBookmarks: ReadAllBookmarks,
-    val getOpenDocument: GetOpenDocument,
-    val setOpenDocument: SetOpenDocument
+    val getDocument: GetDocument
 ) {
     override fun toString(): String {
-        return "InterActors: addDocument=$addDocument, addBookmark=$addBookmark, removeDocument=$removeDocument, removeBookmark=$removeBookmark, readAllDocuments=$readAllDocuments, readAllBookmarks=$readAllBookmarks, getOpenDocument=$getOpenDocument, setOpenDocument=$setOpenDocument"
+        return "InterActors: addDocument=$addDocument, addBookmark=$addBookmark, removeDocument=$removeDocument, removeBookmark=$removeBookmark, readAllDocuments=$readAllDocuments, readAllBookmarks=$readAllBookmarks, getDocument=$getDocument"
     }
 }

@@ -1,9 +1,9 @@
 package com.example.clean.framework.di
 
+import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.action.InterActors
 import com.example.clean.framework.datasource.DBBookmarkDataSource
 import com.example.clean.framework.datasource.DBDocumentDataSource
-import com.example.clean.framework.datasource.InMemoryOpenDocument
 import com.example.clean.framework.db.PDFDataBase
 import com.example.clean.presentation.helper.Mapper
 import com.example.clean.presentation.library.LibraryViewModel
@@ -20,10 +20,6 @@ val mapperModule = module {
 
 val pdfDataBaseModule = module {
     single { PDFDataBase.getPDFDBInstance(androidApplication().applicationContext) }
-}
-
-val openDocumentDataSourceModule = module {
-    single<OpenDocumentDataSource> { InMemoryOpenDocument() }
 }
 
 val dbDocumentDataSourceModule = module {
@@ -45,7 +41,7 @@ val dbBookmarkDataSourceModule = module {
 }
 
 val documentRepositoryModule = module {
-    single { DocumentRepository(documentDataSource = get(), openDocumentDataSource = get()) }
+    single { DocumentRepository(documentDataSource = get()) }
 }
 
 val bookmarkRepositoryModule = module {
@@ -57,8 +53,7 @@ val actorsModule = module {
     single { AddBookmark(bookmarkRepository = get()) }
     single { RemoveDocument(documentRepository = get()) }
     single { RemoveBookmark(bookmarkRepository = get()) }
-    single { GetOpenDocument(documentRepository = get()) }
-    single { SetOpenDocument(documentRepository = get()) }
+    single { GetDocument(documentRepository = get()) }
     single { ReadAllDocuments(documentRepository = get()) }
     single { ReadAllBookmarks(bookmarkRepository = get()) }
 }
@@ -72,8 +67,7 @@ val interActorsModule = module {
             removeDocument = get(),
             readAllBookmarks = get(),
             readAllDocuments = get(),
-            getOpenDocument = get(),
-            setOpenDocument = get()
+            getDocument = get()
         )
     }
 }
@@ -83,5 +77,15 @@ val libraryViewModelModule = module {
 }
 
 val readerViewModelModule = module {
-    viewModel { ReaderViewModel(interActors = get(), application = androidApplication()) }
+    viewModel {
+        ReaderViewModel(
+            interActors = get(),
+            application = androidApplication(),
+            dataManager = get()
+        )
+    }
+}
+
+val dataManagerModule = module {
+    single { DataManager(androidApplication().applicationContext) }
 }

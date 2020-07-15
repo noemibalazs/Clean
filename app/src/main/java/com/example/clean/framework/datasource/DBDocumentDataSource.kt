@@ -22,4 +22,8 @@ class DBDocumentDataSource(
         val listOfEntity = pdfDataBase.documentDAO().getAllDocument()
         return listOfEntity.map { entity -> mapper.mapDocumentEntityToDocument(entity) }
     }
+
+    override suspend fun getDocument(url: String): Document {
+        return mapper.mapDocumentEntityToDocument(pdfDataBase.documentDAO().getDocument(url))
+    }
 }
