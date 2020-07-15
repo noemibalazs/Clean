@@ -6,7 +6,7 @@ import com.example.core.domain.Document
 
 class ReadAllBookmarks(private val bookmarkRepository: BookmarkRepository) {
 
-    operator fun invoke(document: Document): List<Bookmark> {
+    suspend operator fun invoke(document: Document): List<Bookmark> {
         return bookmarkRepository.readAllBookmarks(document)
     }
 }

@@ -11,17 +11,17 @@ class DBBookmarkDataSource(
     private val mapper: Mapper
 ) : BookmarkDataSource {
 
-    override fun addBookmark(document: Document, bookmark: Bookmark) {
+    override suspend fun addBookmark(document: Document, bookmark: Bookmark) {
         pdfDataBase.bookmarkDAO()
             .addBookmark(mapper.mapBookmarkToBookmarkEntity(bookmark, document))
     }
 
-    override fun removeBookmark(document: Document, bookmark: Bookmark) {
+    override suspend fun removeBookmark(document: Document, bookmark: Bookmark) {
         pdfDataBase.bookmarkDAO()
             .deleteBookmark(mapper.mapBookmarkToBookmarkEntity(bookmark, document))
     }
 
-    override fun readAllBookmarks(document: Document): List<Bookmark> {
+    override suspend fun readAllBookmarks(document: Document): List<Bookmark> {
         val entityList = pdfDataBase.bookmarkDAO().getAllBookmarks(document.uri)
         return entityList.map { entity -> mapper.mapBookmarkEntityToBookmark(entity) }
     }

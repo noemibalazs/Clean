@@ -7,11 +7,11 @@ import com.example.core.domain.Bookmark
 interface BookmarkDAO {
 
     @Query("SELECT * FROM bookmark_table WHERE url= :url ")
-    fun getAllBookmarks(url: String): List<BookmarkEntity>
+    suspend fun getAllBookmarks(url: String): List<BookmarkEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addBookmark(bookmarkEntity: BookmarkEntity)
+    suspend fun addBookmark(bookmarkEntity: BookmarkEntity)
 
     @Delete
-    fun deleteBookmark(bookmarkEntity: BookmarkEntity)
+    suspend fun deleteBookmark(bookmarkEntity: BookmarkEntity)
 }

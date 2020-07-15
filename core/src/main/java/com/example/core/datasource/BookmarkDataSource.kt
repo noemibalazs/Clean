@@ -5,9 +5,9 @@ import com.example.core.domain.Document
 
 interface BookmarkDataSource {
 
-    fun addBookmark(document: Document, bookmark: Bookmark)
+    suspend fun addBookmark(document: Document, bookmark: Bookmark)
 
-    fun removeBookmark(document: Document, bookmark: Bookmark)
+    suspend fun removeBookmark(document: Document, bookmark: Bookmark)
 
-    fun readAllBookmarks(document: Document): List<Bookmark>
+    suspend fun readAllBookmarks(document: Document): List<Bookmark>
 }

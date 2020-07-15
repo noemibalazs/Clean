@@ -6,7 +6,7 @@ import com.example.core.domain.Document
 
 class RemoveBookmark(private val bookmarkRepository: BookmarkRepository) {
 
-    operator fun invoke(document: Document, bookmark: Bookmark) {
+    suspend operator fun invoke(document: Document, bookmark: Bookmark) {
         bookmarkRepository.removeBookmark(document, bookmark)
     }
 }

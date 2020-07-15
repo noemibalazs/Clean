@@ -6,7 +6,7 @@ import com.example.core.domain.Document
 
 class AddBookmark(private val bookmarkRepository: BookmarkRepository) {
 
-    operator fun invoke(document: Document, bookmark: Bookmark) {
+    suspend operator fun invoke(document: Document, bookmark: Bookmark) {
         bookmarkRepository.addBookmark(document, bookmark)
     }
 }
