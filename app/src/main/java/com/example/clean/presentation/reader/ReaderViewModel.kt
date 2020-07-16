@@ -28,14 +28,6 @@ class ReaderViewModel(
 
     var document = MutableLiveData<Document>()
 
-    val bookmarks = MediatorLiveData<List<Bookmark>>().apply {
-        addSource(document) { document ->
-            launch {
-                postValue(interActors.readAllBookmarks.invoke(document))
-            }
-        }
-    }
-
     fun getDocument() {
         launch {
             val myDocument = interActors.getDocument.invoke(dataManager.getDocumentUrl())
@@ -86,10 +78,7 @@ class ReaderViewModel(
                 launch {
                     val document = document.value
                     document?.let {
-                        //bookmark = interActors.readAllBookmarks.invoke(it).lastOrNull()?.page ?: 0
-                        val x = interActors.readAllBookmarks.invoke(it)
-                            .lastOrNull { item -> item.page == pdfCurrentPage.value?.index }
-                        bookmark = x?.page ?: 0
+                        bookmark = dataManager.getBookmark()
                     }
                     withContext(Dispatchers.Main) {
                         postValue(renderer.openPage(bookmark))
@@ -102,51 +91,20 @@ class ReaderViewModel(
     fun nextPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.plus(1))
+            dataManager.saveBookmark(it.index.plus(1))
         }
-        toggleBookmark()
-        toggleDocument()
     }
 
     fun previousPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.minus(1))
+            dataManager.saveBookmark(it.index.minus(1))
         }
-        toggleBookmark()
-        toggleDocument()
     }
 
     private fun openPage(page: Int) {
         pdfRenderer.value?.let {
             pdfCurrentPage.value = it.openPage(page)
-        }
-    }
-
-    fun toggleBookmark() {
-        val currentPage = pdfCurrentPage.value?.index ?: return
-        val document = document.value ?: return
-        val bookmark = bookmarks.value?.firstOrNull { it.page == currentPage }
-
-        Log.d(KOIN_TAG, "SEE CURRENT PAGE: $currentPage")
-
-        launch {
-            if (bookmark == null) {
-                interActors.addBookmark.invoke(document, Bookmark(page = currentPage))
-            } else {
-                interActors.removeBookmark.invoke(document, bookmark)
-            }
-
-            bookmarks.postValue(interActors.readAllBookmarks.invoke(document))
-        }
-    }
-
-    fun toggleDocument() {
-        val myDocument = document.value ?: return
-
-        launch {
-            if (myDocument.uri != dataManager.getDocumentUrl()) {
-                interActors.addDocument.invoke(myDocument)
-            }
-            document.postValue(myDocument)
         }
     }
 }

@@ -6,3 +6,4 @@ const val PDF_DATA_BASE = "pdf_db"
 const val REQUEST_CODE = 9
 const val MY_PREFERENCES = "my_preferences"
 const val DOC_URL_KEY = "doc_url_key"
+const val DOC_PAGE_KEY = "doc_page_key"

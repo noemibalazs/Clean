@@ -68,10 +68,6 @@ class ReaderFragment : Fragment() {
         binding.tvPagePrevious.setOnClickListener {
             readerViewModel.previousPage()
         }
-
-        readerViewModel.bookmarks.observe(viewLifecycleOwner, Observer {
-            Log.d(KOIN_TAG, "Size of the bookmark list is: ${it.size}")
-        })
     }
 
     private fun showPage(page: PdfRenderer.Page) {
