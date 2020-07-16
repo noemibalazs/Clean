@@ -19,7 +19,6 @@ import com.example.clean.R
 import com.example.clean.databinding.FragmentLibraryBinding
 import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.adapter.LibraryAdapter
-import com.example.clean.presentation.util.DOCUMENT
 import com.example.clean.presentation.util.REQUEST_CODE
 import com.example.clean.presentation.util.openCreateDocument
 import com.example.core.domain.Document

@@ -12,11 +12,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.example.clean.R
 import com.example.clean.databinding.FragmentReaderBinding
-import com.example.clean.presentation.util.DOCUMENT
-import com.example.core.domain.Document
 import kotlinx.android.synthetic.main.fragment_reader.*
 import org.koin.android.ext.android.inject
 import org.koin.core.logger.KOIN_TAG
@@ -47,6 +44,7 @@ class ReaderFragment : Fragment() {
 
     private fun setObservers() {
         readerViewModel.getDocument()
+
         readerViewModel.document.observe(viewLifecycleOwner, Observer {
             Log.d(KOIN_TAG, "Document name is: ${it.name}")
         })
@@ -70,6 +68,10 @@ class ReaderFragment : Fragment() {
         binding.tvPagePrevious.setOnClickListener {
             readerViewModel.previousPage()
         }
+
+        readerViewModel.bookmarks.observe(viewLifecycleOwner, Observer {
+            Log.d(KOIN_TAG, "Size of the bookmark list is: ${it.size}")
+        })
     }
 
     private fun showPage(page: PdfRenderer.Page) {

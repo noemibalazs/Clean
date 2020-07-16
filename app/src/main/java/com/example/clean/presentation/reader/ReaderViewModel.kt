@@ -1,11 +1,10 @@
 package com.example.clean.presentation.reader
 
 import android.app.Application
-import android.database.Observable
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import androidx.databinding.ObservableField
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +12,7 @@ import androidx.lifecycle.Transformations
 import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.action.InterActors
 import com.example.clean.framework.viewmodel.PDFViewModel
-import com.example.clean.framework.viewmodel.SingleLiveData
+import com.example.core.domain.Bookmark
 import com.example.core.domain.Document
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +27,14 @@ class ReaderViewModel(
     PDFViewModel() {
 
     var document = MutableLiveData<Document>()
-    private val observableDocument = ObservableField<Document>()
+
+    val bookmarks = MediatorLiveData<List<Bookmark>>().apply {
+        addSource(document) { document ->
+            launch {
+                postValue(interActors.readAllBookmarks.invoke(document))
+            }
+        }
+    }
 
     fun getDocument() {
         launch {
@@ -36,7 +42,6 @@ class ReaderViewModel(
             withContext(Dispatchers.Main) {
                 try {
                     document.value = myDocument
-                    observableDocument.set(myDocument)
                 } catch (e: Exception) {
                     Logger.e(KOIN_TAG, "getDocument error message: ${e.message}")
                 }
@@ -58,9 +63,9 @@ class ReaderViewModel(
     }
 
     val pdfRenderer = MediatorLiveData<PdfRenderer>().apply {
-        addSource(document) {
+        addSource(document) { document ->
             try {
-                val parcelDescriptor = openFileDescriptor(Uri.parse(document.value?.uri))
+                val parcelDescriptor = openFileDescriptor(Uri.parse(document.uri))
                 parcelDescriptor?.let {
                     value = PdfRenderer(it)
                 }
@@ -81,7 +86,10 @@ class ReaderViewModel(
                 launch {
                     val document = document.value
                     document?.let {
-                        bookmark = interActors.readAllBookmarks.invoke(it).lastOrNull()?.page ?: 0
+                        //bookmark = interActors.readAllBookmarks.invoke(it).lastOrNull()?.page ?: 0
+                        val x = interActors.readAllBookmarks.invoke(it)
+                            .lastOrNull { item -> item.page == pdfCurrentPage.value?.index }
+                        bookmark = x?.page ?: 0
                     }
                     withContext(Dispatchers.Main) {
                         postValue(renderer.openPage(bookmark))
@@ -89,30 +97,56 @@ class ReaderViewModel(
                 }
             }
         }
-
-        val lastDocument = observableDocument.get()
-
-        document.value = when {
-            lastDocument != null && lastDocument != Document.EMPTY -> lastDocument
-            else -> Document.EMPTY
-        }
     }
 
     fun nextPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.plus(1))
         }
+        toggleBookmark()
+        toggleDocument()
     }
 
     fun previousPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.minus(1))
         }
+        toggleBookmark()
+        toggleDocument()
     }
 
     private fun openPage(page: Int) {
         pdfRenderer.value?.let {
             pdfCurrentPage.value = it.openPage(page)
+        }
+    }
+
+    fun toggleBookmark() {
+        val currentPage = pdfCurrentPage.value?.index ?: return
+        val document = document.value ?: return
+        val bookmark = bookmarks.value?.firstOrNull { it.page == currentPage }
+
+        Log.d(KOIN_TAG, "SEE CURRENT PAGE: $currentPage")
+
+        launch {
+            if (bookmark == null) {
+                interActors.addBookmark.invoke(document, Bookmark(page = currentPage))
+            } else {
+                interActors.removeBookmark.invoke(document, bookmark)
+            }
+
+            bookmarks.postValue(interActors.readAllBookmarks.invoke(document))
+        }
+    }
+
+    fun toggleDocument() {
+        val myDocument = document.value ?: return
+
+        launch {
+            if (myDocument.uri != dataManager.getDocumentUrl()) {
+                interActors.addDocument.invoke(myDocument)
+            }
+            document.postValue(myDocument)
         }
     }
 }
