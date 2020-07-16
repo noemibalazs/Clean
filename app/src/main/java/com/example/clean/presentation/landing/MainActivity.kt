@@ -7,6 +7,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
 import com.example.clean.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer_layout.isDrawerOpen(GravityCompat.START))
             drawer_layout.closeDrawer(GravityCompat.START)
         else
-            super.onBackPressed()
+            backPress()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -55,5 +56,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawers()
         return true
+    }
+
+    private fun backPress() {
+        if (findNavController(R.id.nav_host_fragment).currentDestination?.id == R.id.libraryFragment) {
+            finish()
+            return
+        }
+
+        onSupportNavigateUp()
+    }
+
+    override fun onSupportNavigateUp(): Boolean =
+        findNavController(R.id.nav_host_fragment).navigateUpOrFinish(this)
+
+    private fun NavController.navigateUpOrFinish(activity: AppCompatActivity): Boolean {
+        return if (navigateUp()) {
+            true
+        } else {
+            activity.finish()
+            true
+        }
     }
 }

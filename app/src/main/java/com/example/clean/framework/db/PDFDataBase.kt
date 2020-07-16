@@ -7,13 +7,12 @@ import androidx.room.RoomDatabase
 import com.example.clean.presentation.util.PDF_DATA_BASE
 
 @Database(
-    entities = [BookmarkEntity::class, DocumentEntity::class],
-    version = 3,
+    entities = [DocumentEntity::class],
+    version = 4,
     exportSchema = false
 )
 abstract class PDFDataBase : RoomDatabase() {
 
-    abstract fun bookmarkDAO(): BookmarkDAO
     abstract fun documentDAO(): DocumentDAO
 
     companion object {

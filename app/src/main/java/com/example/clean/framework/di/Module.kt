@@ -2,7 +2,6 @@ package com.example.clean.framework.di
 
 import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.action.InterActors
-import com.example.clean.framework.datasource.DBBookmarkDataSource
 import com.example.clean.framework.datasource.DBDocumentDataSource
 import com.example.clean.framework.db.PDFDataBase
 import com.example.clean.presentation.helper.Mapper
@@ -31,41 +30,22 @@ val dbDocumentDataSourceModule = module {
     }
 }
 
-val dbBookmarkDataSourceModule = module {
-    single<BookmarkDataSource> {
-        DBBookmarkDataSource(
-            pdfDataBase = get(),
-            mapper = get()
-        )
-    }
-}
-
 val documentRepositoryModule = module {
     single { DocumentRepository(documentDataSource = get()) }
 }
 
-val bookmarkRepositoryModule = module {
-    single { BookmarkRepository(bookmarkDataSource = get()) }
-}
-
 val actorsModule = module {
     single { AddDocument(documentRepository = get()) }
-    single { AddBookmark(bookmarkRepository = get()) }
     single { RemoveDocument(documentRepository = get()) }
-    single { RemoveBookmark(bookmarkRepository = get()) }
     single { GetDocument(documentRepository = get()) }
     single { ReadAllDocuments(documentRepository = get()) }
-    single { ReadAllBookmarks(bookmarkRepository = get()) }
 }
 
 val interActorsModule = module {
     single {
         InterActors(
-            addBookmark = get(),
             addDocument = get(),
-            removeBookmark = get(),
             removeDocument = get(),
-            readAllBookmarks = get(),
             readAllDocuments = get(),
             getDocument = get()
         )

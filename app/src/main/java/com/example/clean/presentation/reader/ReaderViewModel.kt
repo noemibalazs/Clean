@@ -4,7 +4,6 @@ import android.app.Application
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,6 @@ import androidx.lifecycle.Transformations
 import com.example.clean.framework.action.DataManager
 import com.example.clean.framework.action.InterActors
 import com.example.clean.framework.viewmodel.PDFViewModel
-import com.example.core.domain.Bookmark
 import com.example.core.domain.Document
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.Dispatchers
