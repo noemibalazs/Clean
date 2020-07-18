@@ -1,4 +1,4 @@
-# Clean
+# Clean - Pdf Reader
 
 TO DO:
 
@@ -11,15 +11,15 @@ The application is built on Clean Architecture principles using layers, adding a
 
 Libraries:
 
-Koin
-Room
-ListAdapter
-Android databinding
-Affolestad Material Dialog
-Support design libraries
-Espresso
-Mockito
-Robolectric
+1. Koin
+2. Room
+3. ListAdapter
+4. Android databinding
+5. Affolestad Material Dialog
+6. Support design libraries
+7. Espresso
+8. Mockito
+9. Robolectric
 
 Screenshots:
 
