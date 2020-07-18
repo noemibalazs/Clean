@@ -53,7 +53,6 @@ class FragmentLibrary : Fragment() {
         libraryAdapter = LibraryAdapter(
             libraryViewModel,
             this::onDocumentClicked,
-            Glide.with(this),
             this::onDeleteDocumentClicked
         )
         binding.rvLibrary.adapter = libraryAdapter

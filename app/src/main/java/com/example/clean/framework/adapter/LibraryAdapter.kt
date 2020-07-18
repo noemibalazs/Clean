@@ -13,7 +13,6 @@ import com.example.core.domain.Document
 class LibraryAdapter(
     private val libraryViewModel: LibraryViewModel,
     private val documentClickListener: (Document) -> Unit,
-    private val requestManager: RequestManager,
     private val deleteClickListener: (Document) -> Unit
 ) : ListAdapter<Document, LibraryVH>(LibraryDiffUtil()) {
 
