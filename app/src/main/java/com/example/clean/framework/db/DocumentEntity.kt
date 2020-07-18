@@ -9,5 +9,6 @@ data class DocumentEntity(
     @PrimaryKey
     val url: String,
     val name: String,
-    val size: Int
+    val size: Int,
+    val page: Int
 )

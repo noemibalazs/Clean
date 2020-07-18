@@ -9,7 +9,8 @@ class Mapper {
         return Document(
             uri = documentEntity.url,
             name = documentEntity.name,
-            size = documentEntity.size
+            size = documentEntity.size,
+            page = documentEntity.page
         )
     }
 
@@ -17,7 +18,8 @@ class Mapper {
         return DocumentEntity(
             url = document.uri,
             name = document.name,
-            size = document.size
+            size = document.size,
+            page = document.page
         )
     }
 }

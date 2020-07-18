@@ -76,7 +76,7 @@ class ReaderViewModel(
                 launch {
                     val document = document.value
                     document?.let {
-                        bookmark = dataManager.getBookmark()
+                        bookmark = it.page
                     }
                     withContext(Dispatchers.Main) {
                         postValue(renderer.openPage(bookmark))
@@ -89,14 +89,28 @@ class ReaderViewModel(
     fun nextPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.plus(1))
-            dataManager.saveBookmark(it.index.plus(1))
+            val page = it.index.plus(1)
+            launch {
+                val doc = document.value
+                doc?.let {
+                    val document = Document(uri = doc.uri, name = doc.name, size =  doc.size, page = page)
+                    interActors.addDocument.invoke(document)
+                }
+            }
         }
     }
 
     fun previousPage() {
         pdfCurrentPage.value?.let {
             openPage(it.index.minus(1))
-            dataManager.saveBookmark(it.index.minus(1))
+            val page = it.index.minus(1)
+            launch {
+                val doc = document.value
+                doc?.let {
+                    val document = Document(uri = doc.uri, name = doc.name, size =  doc.size, page = page)
+                    interActors.addDocument.invoke(document)
+                }
+            }
         }
     }
 

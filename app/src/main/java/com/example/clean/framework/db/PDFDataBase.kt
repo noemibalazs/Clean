@@ -8,7 +8,7 @@ import com.example.clean.presentation.util.PDF_DATA_BASE
 
 @Database(
     entities = [DocumentEntity::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class PDFDataBase : RoomDatabase() {
