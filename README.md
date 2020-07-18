@@ -20,3 +20,8 @@ Support design libraries
 Espresso
 Mockito
 Robolectric
+
+Screenshots:
+
+![Screenshot_20200718-180705_Clean Architecture](https://user-images.githubusercontent.com/33603567/87855931-3d240d80-c924-11ea-98f1-037207977910.jpg)
+![Screenshot_20200718-180715_Clean Architecture](https://user-images.githubusercontent.com/33603567/87855933-401efe00-c924-11ea-9265-a56627dbaf04.jpg)
